@@ -1,6 +1,18 @@
 {% extends 'home.html' %}
 
 {% block content %}
-    <h2>User Profile</h2>
-    <!-- User profile information will go here -->
+<h2>User Profile</h2>
+<form method="post">
+    {% csrf_token %}
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="interests">Interests:</label>
+    <input type="text" id="interests" name="interests"><br><br>
+
+    <input type="submit" value="Update Profile">
+</form>
 {% endblock %}
