@@ -9,12 +9,18 @@
 </head>
 <body>
     <header>
-        <h1>Project Matchmaking for Investors</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'projects' %}">Projects</a></li>
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        </nav>
     </header>
-    <nav>
-        <!-- Navigation Bar -->
-    </nav>
     <main>
+        <h1>Welcome to the Project Matchmaking Platform</h1>
+        <p>Find and match with exciting projects tailored to your interests.</p>
         <section id="projects">
             <!-- Dynamic Project Listings -->
         </section>

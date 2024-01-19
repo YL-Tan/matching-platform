@@ -13,3 +13,12 @@ class ProjectViewSet(viewsets.ModelViewSet):
 
 def home(request):
     return render(request, 'home.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def projects(request):
+    return render(request, 'projects.html')
+
+def dashboard(request):
+    return render(request, 'dashboard.html')
