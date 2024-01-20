@@ -53,21 +53,21 @@ To get started with the Matching Platform project, follow these steps:
    cd matching_platform
    ```
 
-2. Set Up a Virtual Environment (Optional but recommended)
+2. **Set Up a Virtual Environment (Optional but recommended)**
    ```
-  python3 -m venv [your_venv_name]
-  source [your_venv_name]/bin/activate 
-   ```
-
-3. Run Migrations
-   ```
-  python manage.py makemigrations
-  python manage.py migrate
+   python3 -m venv [your_venv_name]
+   source [your_venv_name]/bin/activate 
    ```
 
-4. Start the Development Server
+3. **Run Migrations**
    ```
-  python manage.py runserver
+   python manage.py makemigrations
+   python manage.py migrate
+   ```
+
+4. **Start the Development Server**
+   ```
+   python manage.py runserver
    ```
 
 Now, visit http://localhost:8000 in your browser.
