@@ -1,5 +1,5 @@
 /matchingvenv
-/core/__pycache__/
-/matchmaking_platform/__pycache__/
+/core/__pycache__
+/matchmaking_platform/__pycache__
 note.txt
 diagram.png
