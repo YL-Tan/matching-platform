@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Projects</h2>
+<ul>
+    {% for project in project_list %}
+        <li>{{ project.title }} - <a href="#">View Details</a></li>
+    {% empty %}
+        {% if user.is_authenticated %}
+            <li>You have no projects.</li>
+        {% else %}
+            <li>There are no projects.</li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% endblock %}

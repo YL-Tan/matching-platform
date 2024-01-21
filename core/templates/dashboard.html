@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Dashboard</h2>
+<div class="dashboard-widget">
+    <h3>Your Projects</h3>
+    <ul>
+        {% for project in user_projects %}
+            <li>{{ project.title }} - <a href="#">View Details</a></li>
+        {% empty %}
+            {% if user.is_authenticated %}
+                <li>You have no projects.</li>
+            {% else %}
+                <li>There are no projects.</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

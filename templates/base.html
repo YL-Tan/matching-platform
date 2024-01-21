@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Matchmaking Platform</title>
+    <title>{% block title %}Project Matchmaking Platform{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -24,9 +24,8 @@
         </nav>
     </header>
     <main>
-        <h1>Welcome to the Project Matchmaking Platform</h1>
-        <p>Find and match with exciting projects tailored to your interests.</p>
-        {% block content %}{% endblock %}
+        {% block content %}
+        {% endblock content %}
     </main>
     <footer>
         <p>© 2024 Project Matchmaking Platform</p>

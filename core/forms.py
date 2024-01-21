@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.conf import settings
-import os
 
 class UserProfileForm(forms.ModelForm):
     class Meta:

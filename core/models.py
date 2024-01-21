@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=100, unique=True)
     email = models.EmailField(unique=True)
     interests = models.TextField()
@@ -14,6 +14,7 @@ class UserProfile(models.Model):
         return self.company_name
 
 class Project(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     description = models.TextField()
     industry = models.CharField(max_length=100)
