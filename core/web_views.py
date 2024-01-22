@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import UserProfile, Project
-from .forms import UserRegisterForm, UserProfileForm
+from .forms import UserRegisterForm, UserProfileForm, ProjectForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -25,10 +25,7 @@ def profile(request):
         form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Profile successfully updated.')
             return redirect('profile')
-        else:
-            messages.error(request, 'Error updating profile.')
     else:
         form = UserProfileForm(instance=user_profile)
 
@@ -41,6 +38,23 @@ def projects(request):
     """
     project_list = Project.objects.all()
     return render(request, 'projects.html', {'project_list': project_list})
+
+@login_required
+def create_project(request):
+    """
+    Handle the project creation process.
+    """
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user = request.user
+            project.save()
+            return redirect('dashboard')
+    else:
+        form = ProjectForm()
+
+    return render(request, 'create_project.html', {'form': form})
 
 # Dashboard View
 @login_required

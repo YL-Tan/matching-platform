@@ -44,6 +44,28 @@ footer {
     float: left;
     box-sizing: border-box;
 }
+.create-project-link {
+    float: right;
+    margin-right: 15px; 
+}
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.create-project-link a {
+    text-decoration: none;
+    text-align: right;
+    color: #007bff;
+    padding: 8px 16px;
+    background-color: #f4f4f4;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.create-project-link a:hover {
+    background-color: #e2e6ea;
+}
 
 @media screen and (max-width: 600px) {
     nav, footer {

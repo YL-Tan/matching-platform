@@ -18,6 +18,7 @@ urlpatterns = [
     path("", web_views.home, name='home'),
     path('profile/', web_views.profile, name='profile'),
     path('projects/', web_views.projects, name='projects'),
+    path('create_project/', web_views.create_project, name='create_project'),
     path('dashboard/', web_views.dashboard, name='dashboard'),
 
     # Authentication URLs

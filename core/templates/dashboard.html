@@ -2,18 +2,26 @@
 
 {% block content %}
 <h2>Dashboard</h2>
+<div class="create-project-link">
+    <a href="{% url 'create_project' %}">Create New Project</a>
+</div>
+<div class="clearfix"></div>
 <div class="dashboard-widget">
-    <h3>Your Projects</h3>
-    <ul>
-        {% for project in user_projects %}
-            <li>{{ project.title }} - <a href="#">View Details</a></li>
-        {% empty %}
-            {% if user.is_authenticated %}
-                <li>You have no projects.</li>
-            {% else %}
-                <li>There are no projects.</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+    <h2>Your Projects</h2>
+
+    {% if user.is_authenticated %}
+        {% if user_projects %}
+            <ul>
+                {% for project in user_projects %}
+                    <li> 
+                        <h3>{{ project.title }}</h3>
+                        <p>{{ project.description }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have no projects.</p>
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}
