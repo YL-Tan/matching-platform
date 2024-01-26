@@ -4,7 +4,7 @@
 <h2>Projects</h2>
 <ul>
     {% for project in project_list %}
-        <li>{{ project.title }} - <a href="#">View Details</a></li>
+        <li>{{ project.title }} - <a href="#" data-project-id="{{ project.id }}" class="view-details">View Details</a></li>
     {% empty %}
         {% if user.is_authenticated %}
             <li>You have no projects.</li>
@@ -13,4 +13,15 @@
         {% endif %}
     {% endfor %}
 </ul>
+
+<!-- Modal Structure -->
+<div id="projectModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="modalTitle"></h3>
+        <p id="modalDescription"></p>
+        <p id="modalLocation"></p>
+        <!-- Add more fields as needed -->
+    </div>
+</div>
 {% endblock %}

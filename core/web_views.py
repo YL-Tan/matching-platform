@@ -1,9 +1,16 @@
 from django.shortcuts import render, redirect
-from .models import UserProfile, Project
+from .models import UserProfile, Project, ProjectView
 from .forms import UserRegisterForm, UserProfileForm, ProjectForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.http import JsonResponse
+# from ai_module.utils import MatrixFactorizationModel
+# import torch
+
+# model = MatrixFactorizationModel(UserProfile.objects.count(), Project.objects.count())
+# model.load_state_dict(torch.load('model.pth'))
+# model.eval()
 
 # Home Page View
 def home(request):
@@ -107,3 +114,69 @@ def register(request):
 
     form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
+
+def view_project(request, project_id):
+    """
+    Recording a project view.
+    """
+    if request.user.is_anonymous: # if the user is not logged in, do not record the view
+        return
+    user = request.user
+    project = Project.objects.get(id=project_id)
+    ProjectView.objects.create(user=user, project=project)
+    print("Project view recorded")
+
+def convert_to_project_ids(recommendation_scores):
+    # Assuming recommendation_scores are indices or have a property that maps to project IDs
+    # This is a simplistic example. Adapt it based on your model's output format.
+    
+    # Extract project IDs from the recommendation scores
+    project_ids = [score.item() for score in recommendation_scores.indices]
+    return project_ids
+
+
+# def generate_recommendations(user_id, model, num_recommendations=10):
+#     # Convert user_id to a tensor or appropriate format for your model
+#     user_tensor = torch.tensor([user_id])
+
+#     # Get recommendations from the model
+#     # how your model generates predictions?
+#     # recommendations = model(user_tensor).topk(num_recommendations)
+
+#     # Convert recommendations to project IDs or similar
+#     # project_ids = convert_to_project_ids(recommendations)
+#     return project_ids
+
+
+@login_required
+def user_recommendations(request):
+    user = request.user
+    user_profile, created = UserProfile.objects.get_or_create(user=user)
+
+    if user_profile.has_sufficient_interactions():
+        # Generate recommendations using the model
+        recommended_project_ids = [1]
+        recommendations = Project.objects.filter(id__in=recommended_project_ids)
+    else:
+        # If the user has not interacted with enough projects, show all projects
+        recommendations = Project.objects.all()
+
+    return render(request, 'user_recommendations.html', {'recommendations': recommendations})
+
+def project_details(request, project_id):
+    project = Project.objects.get(id=project_id)
+    data = {
+        'title': project.title,
+        'description': project.description,
+        # 'category': project.category,
+        'created_at': project.created_at,
+        'start_date': project.start_date,
+        'end_date': project.end_date,
+        'location': project.location,
+        'investment_sought': project.investment_sought,
+        'contact_email': project.contact_email,
+        # Add other fields as needed
+    }
+    # record the project view
+    view_project(request, project_id)
+    return JsonResponse(data)
