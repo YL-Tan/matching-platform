@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, Project, Category, ProjectView
+from .models import UserProfile, Project, Category, ProjectView, Country
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
@@ -12,6 +12,10 @@ class ProjectAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['name', 'created_at'] 
+
+@admin.register(Country)
+class CountryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'created_at']
 
 @admin.register(ProjectView)
 class ProjectViewAdmin(admin.ModelAdmin):

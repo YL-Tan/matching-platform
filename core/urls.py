@@ -2,7 +2,7 @@
 associating them with corresponding view functions in the Django 
 application
 """
-from django.urls import path
+from django.urls import path, include
 from . import web_views, api_views
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
@@ -12,9 +12,11 @@ from django.conf.urls.static import static
 router = DefaultRouter()
 router.register(r'userprofiles', api_views.UserProfileViewSet)
 router.register(r'projects', api_views.ProjectViewSet)
+router.register(r'recommendations', api_views.RecommendationViewSet, basename='recommendations')
 
 urlpatterns = [
-    path("", web_views.home, name='home'),
+    path('', web_views.home, name='home'),
+    path('api/', include(router.urls)),
     path('profile/', web_views.profile, name='profile'),
     path('projects/', web_views.projects, name='projects'),
     path('create_project/', web_views.create_project, name='create_project'),

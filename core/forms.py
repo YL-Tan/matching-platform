@@ -8,7 +8,7 @@ from django.conf import settings
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['company_name', 'email', 'interests', 'bio', 'avatar', 'website']
+        fields = ['company_name', 'email', 'interests', 'bio', 'avatar', 'website', 'preferred_categories', 'investment_size', 'preferred_countries']
 
 class UserRegisterForm(UserCreationForm):
     class Meta:
@@ -18,4 +18,4 @@ class UserRegisterForm(UserCreationForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'description', 'category', 'start_date', 'end_date', 'budget', 'tags', 'location', 'investment_sought', 'contact_email']
+        fields = ['title', 'description', 'category', 'start_date', 'end_date', 'tags', 'location', 'investment_sought', 'contact_email']

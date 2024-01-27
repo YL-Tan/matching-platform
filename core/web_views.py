@@ -19,6 +19,60 @@ def home(request):
     """
     return render(request, 'home.html')
 
+# Projects View
+def projects(request):
+    """
+    Display all projects.
+    """
+    project_list = Project.objects.all()
+    return render(request, 'projects.html', {'project_list': project_list})
+
+def project_details(request, project_id):
+    project = Project.objects.get(id=project_id)
+    data = {
+        'title': project.title,
+        'description': project.description,
+        # 'category': project.category,
+        'created_at': project.created_at,
+        'start_date': project.start_date,
+        'end_date': project.end_date,
+        'location': project.location,
+        'investment_sought': project.investment_sought,
+        'contact_email': project.contact_email,
+        # Add other fields as needed
+    }
+    # record the project view
+    view_project(request, project_id)
+    return JsonResponse(data)
+
+def view_project(request, project_id):
+    """
+    Recording a project view.
+    """
+    if request.user.is_anonymous: # if the user is not logged in, do not record the view
+        return
+    user = request.user
+    project = Project.objects.get(id=project_id)
+    ProjectView.objects.create(user=user, project=project)
+    print("Project view recorded")
+
+@login_required
+def create_project(request):
+    """
+    Handle the project creation process.
+    """
+    if request.method == 'POST':
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.user = request.user
+            project.save()
+            return redirect('dashboard')
+    else:
+        form = ProjectForm()
+
+    return render(request, 'create_project.html', {'form': form})
+
 # User Profile View
 @login_required
 def profile(request):
@@ -37,31 +91,6 @@ def profile(request):
         form = UserProfileForm(instance=user_profile)
 
     return render(request, 'profile.html', {'form': form, 'user_profile': user_profile})
-
-# Projects View
-def projects(request):
-    """
-    Display all projects.
-    """
-    project_list = Project.objects.all()
-    return render(request, 'projects.html', {'project_list': project_list})
-
-@login_required
-def create_project(request):
-    """
-    Handle the project creation process.
-    """
-    if request.method == 'POST':
-        form = ProjectForm(request.POST)
-        if form.is_valid():
-            project = form.save(commit=False)
-            project.user = request.user
-            project.save()
-            return redirect('dashboard')
-    else:
-        form = ProjectForm()
-
-    return render(request, 'create_project.html', {'form': form})
 
 # Dashboard View
 @login_required
@@ -115,39 +144,6 @@ def register(request):
     form = UserRegisterForm()
     return render(request, 'register.html', {'form': form})
 
-def view_project(request, project_id):
-    """
-    Recording a project view.
-    """
-    if request.user.is_anonymous: # if the user is not logged in, do not record the view
-        return
-    user = request.user
-    project = Project.objects.get(id=project_id)
-    ProjectView.objects.create(user=user, project=project)
-    print("Project view recorded")
-
-def convert_to_project_ids(recommendation_scores):
-    # Assuming recommendation_scores are indices or have a property that maps to project IDs
-    # This is a simplistic example. Adapt it based on your model's output format.
-    
-    # Extract project IDs from the recommendation scores
-    project_ids = [score.item() for score in recommendation_scores.indices]
-    return project_ids
-
-
-# def generate_recommendations(user_id, model, num_recommendations=10):
-#     # Convert user_id to a tensor or appropriate format for your model
-#     user_tensor = torch.tensor([user_id])
-
-#     # Get recommendations from the model
-#     # how your model generates predictions?
-#     # recommendations = model(user_tensor).topk(num_recommendations)
-
-#     # Convert recommendations to project IDs or similar
-#     # project_ids = convert_to_project_ids(recommendations)
-#     return project_ids
-
-
 @login_required
 def user_recommendations(request):
     user = request.user
@@ -162,21 +158,3 @@ def user_recommendations(request):
         recommendations = Project.objects.all()
 
     return render(request, 'user_recommendations.html', {'recommendations': recommendations})
-
-def project_details(request, project_id):
-    project = Project.objects.get(id=project_id)
-    data = {
-        'title': project.title,
-        'description': project.description,
-        # 'category': project.category,
-        'created_at': project.created_at,
-        'start_date': project.start_date,
-        'end_date': project.end_date,
-        'location': project.location,
-        'investment_sought': project.investment_sought,
-        'contact_email': project.contact_email,
-        # Add other fields as needed
-    }
-    # record the project view
-    view_project(request, project_id)
-    return JsonResponse(data)
