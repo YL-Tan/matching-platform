@@ -10,6 +10,7 @@ import random
 class RecommendationSystemTestCase(TestCase):
     def setUp(self):
         self.fake = Faker()
+        
         test_categories = [
             Category.objects.create(name='Technology'),
             Category.objects.create(name='Healthcare'),
@@ -103,7 +104,7 @@ class RecommendationSystemTestCase(TestCase):
             self.users.append(user)
 
             # Create projects for each user
-            for j in range(5):
+            for j in range(2):
                 title = f"Next-Gen {self.fake.catch_phrase()} Platform"
                 description = f"This project aims to revolutionize {self.fake.bs()} using technologies like {self.fake.word(ext_word_list=['AI', 'Blockchain', 'IoT'])}."
                 
@@ -125,9 +126,9 @@ class RecommendationSystemTestCase(TestCase):
             self.assertIsInstance(response.data, dict)
             self.assertIn('recommendations', response.data)
             # print(f"User: {user.username}, Recommendations: {response.data['recommendations']}")
-            self.assertTrue(len(response.data['recommendations']) > 0)
-            # self.assertEqual(response.data['recommendations'][0]['title'], 'Test Project')
-            # self.assertEqual(response.data['recommendations'][1]['title'], 'Test Project 2')
+            self.assertTrue(len(response.data['recommendations']) == 5)
+            # for project in response.data['recommendations']:
+            #     print(project['title'])
 
     # def test_recommendation_retrieval_without_auth(self):
     #     client = APIClient()

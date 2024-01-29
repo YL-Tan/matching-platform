@@ -5,12 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import JsonResponse
-# from ai_module.utils import MatrixFactorizationModel
-# import torch
-
-# model = MatrixFactorizationModel(UserProfile.objects.count(), Project.objects.count())
-# model.load_state_dict(torch.load('model.pth'))
-# model.eval()
 
 # Home Page View
 def home(request):
@@ -146,15 +140,4 @@ def register(request):
 
 @login_required
 def user_recommendations(request):
-    user = request.user
-    user_profile, created = UserProfile.objects.get_or_create(user=user)
-
-    if user_profile.has_sufficient_interactions():
-        # Generate recommendations using the model
-        recommended_project_ids = [1]
-        recommendations = Project.objects.filter(id__in=recommended_project_ids)
-    else:
-        # If the user has not interacted with enough projects, show all projects
-        recommendations = Project.objects.all()
-
-    return render(request, 'user_recommendations.html', {'recommendations': recommendations})
+    return render(request, 'user_recommendations.html')

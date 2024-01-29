@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+    
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=100, unique=True)
@@ -32,7 +32,6 @@ class Project(models.Model):
     tags = models.CharField(max_length=200, blank=True)
     location = models.CharField(max_length=200, blank=True)
     investment_sought = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    # expected_return = models.CharField(max_length=100, blank=True)
     contact_email = models.EmailField(blank=True)
     def __str__(self):
         return self.title

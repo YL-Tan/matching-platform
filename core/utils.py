@@ -7,12 +7,12 @@ def extract_features():
     combined_texts = []
 
     for project in projects:
-        # Basic text preprocessing
+        title = project.title.strip().lower() if project.title else ""
         description = project.description.strip().lower() if project.description else ""
         category_name = project.category.name.strip().lower() if project.category.name else ""
         location = project.location.strip().lower() if project.location else ""
 
-        text = f"{description} {category_name} {location}"
+        text = f"{title} {description} {category_name} {location}"
         combined_texts.append(text)
 
     vectorizer = TfidfVectorizer(stop_words='english')

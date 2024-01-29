@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Project Matchmaking Platform{% endblock title %}</title>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -15,14 +16,8 @@
                 <li><a href="{% url 'projects' %}">Projects</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                {% endif %}
-                {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' %}">Profile</a></li>
-                {% endif %}                
-                {% if user.is_authenticated %}
                     <li><a href="{% url 'user_recommendations' %}">Feed</a></li>
-                {% endif %}
-                {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Logout</a></li>
                 {% else %}
                     <li><a href="{% url 'login' %}">Login</a></li>
@@ -38,5 +33,7 @@
         <p>© 2024 Project Matchmaking Platform</p>
     </footer>
     <script src="{% static 'js/script.js' %}"></script>
+    {% block javascript %}
+    {% endblock javascript %}
 </body>
 </html>

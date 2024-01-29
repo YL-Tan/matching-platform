@@ -66,6 +66,7 @@ footer {
 .create-project-link a:hover {
     background-color: #e2e6ea;
 }
+
 /* Modal Styles */
 .modal {
     display: none;

@@ -1,7 +1,6 @@
 from .serializers import UserProfileSerializer, ProjectSerializer
 from rest_framework import viewsets
 from .models import UserProfile, Project
-from .forms import UserProfileForm
 from .utils import extract_features, create_user_vector, calculate_similarity
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -39,19 +38,16 @@ class RecommendationViewSet(viewsets.ViewSet):
         user_vector = create_user_vector(user_preferences, vectorizer)
         # print("User Vector:", user_vector)
         similarity_scores = calculate_similarity(tfidf_matrix, user_vector)
-        # print("Similarity Scores:", similarity_scores)
+        # print("Similarity Scores:\n", similarity_scores)
 
-        # Check if similarity_scores is 1D or 2D and adjust accordingly
-        if len(similarity_scores.shape) == 1:
-            # For 1D array
-            ranked_project_indices = similarity_scores.argsort()[::-1].tolist()
-        else:
-            # For 2D array (existing logic)
-            ranked_project_indices = similarity_scores.argsort()[0][::-1].tolist()
+        ranked_project_indices = similarity_scores.squeeze().argsort()[::-1].tolist()
+
         # print("Ranked Project Indices:", ranked_project_indices)
         top_project_indices = ranked_project_indices[:5]
-        print("Top Project Indices:", top_project_indices)
         recommended_projects = [Project.objects.all()[index] for index in top_project_indices]
+        # need to filter out user's own projects
+        recommended_projects = [project for project in recommended_projects if project.user != request.user]
+
         # Serialize and return the recommended projects
         serialized_projects = ProjectSerializer(recommended_projects, many=True)
         return Response({'recommendations': serialized_projects.data})

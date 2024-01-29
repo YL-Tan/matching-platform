@@ -1,20 +1,14 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
-    <h2>Your Recommendations</h2>
     {% if user.is_authenticated %}
-        {% if not user.userprofile.preferred_categories.exists %}
-            <p>Set your preferred categories for personalized recommendations!</p>
-        {% endif %}
-        {% if recommendations %}
-            <p>Here are some projects we think you might like.</p>
-            <ul>
-                {% for project in recommendations %}
-                    <li>{{ project.title }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>You have no recommendations.</p>
-        {% endif %}
+        <h2>Your Recommendations</h2>
+        <div id="recommendations-container"></div>   
     {% endif %}
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'js/user_recommendations.js' %}"></script>
 {% endblock %}
