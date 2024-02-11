@@ -1,6 +1,8 @@
 # Matching Platform Project
 
-This repository contains the Django-based Matching Platform project, designed for matching users with projects based on their interests and requirements.
+This repository contains the Django-based Matching Platform project, designed for matching users with projects based on their interests and requirements. It leverages Django's robust framework to create a dynamic and interactive platform where users can find projects tailored to their preferences, powered by both traditional web development practices and ML technique. 
+
+NOTE: It utilizes a Content-Based Filtering approach, leveraging TF-IDF and cosine similarity to generate recommendations as a starting point. This is an ongoing process.
 
 ## Getting Started
 
